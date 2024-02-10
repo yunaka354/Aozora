@@ -1,6 +1,12 @@
 use dotenv::dotenv;
+use serde_json::Value;
 use std::env;
 use std::collections::HashMap;
+use std::fs::File;
+use std::io::Write;
+
+mod model;
+use model::Session;
 
 #[tokio::main]
 async fn main() {
@@ -16,7 +22,20 @@ async fn main() {
     let res = client.post(bsky_url)
         .json(&map)
         .send()
-        .await;
-    println!("{:?}", res);
-    println!("{:?}", res.unwrap().text().await.unwrap());
+        .await
+        .expect("Failed to send request");
+    let text = res.text().await.expect("Failed to get response text");
+    save_response(text.clone());
+
+    let json_data: Value = serde_json::from_str(&text).expect("Failed to parse JSON");
+    let session: Session = serde_json::from_value(json_data).expect("Failed to parse JSON into Session");
+
+    println!("{:?}", session);
+}
+
+fn save_response(text: String) {
+    let json_data: Value = serde_json::from_str(&text).expect("Failed to parse JSON");
+    let pretty = serde_json::to_string_pretty(&json_data).expect("Failed to serialize JSON");
+    let mut file = File::create("response.json").expect("Failed to create file");
+    file.write_all(pretty.as_bytes()).expect("Failed to write to file");
 }
