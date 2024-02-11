@@ -4,7 +4,7 @@ use std::env;
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::Write;
-use crate::model::Session;
+use crate::model::{Session, Timeline};
 
 // struct to centralze all the api calls
 pub struct API {
@@ -45,5 +45,20 @@ impl API {
         let text = res.text().await.expect("Failed to get response text");    
         let json_data: Value = serde_json::from_str(&text).expect("Failed to parse JSON");
         serde_json::from_value(json_data).expect("Failed to parse JSON into Session")
+    }
+
+    // function to get the timeline
+    pub async fn get_timeline(&self) -> Timeline {
+        let bsky_url = "https://bsky.social/xrpc/app.bsky.feed.getTimeline";
+        let client = reqwest::Client::new();
+        let res = client.get(bsky_url)
+            .header("Authorization", format!("Bearer {}", self.session.access_jwt))
+            .send()
+            .await
+            .expect("Failed to send request");
+        let text = res.text().await.expect("Failed to get response text");
+        self.save_response(text.clone());
+        let json_data: Value = serde_json::from_str(&text).expect("Failed to parse JSON");
+        serde_json::from_value(json_data).expect("Failed to parse JSON")
     }
 }
