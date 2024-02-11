@@ -1,7 +1,7 @@
 use serde::{Serialize, Deserialize};
 
 // Response from com.atproto.server.createSession
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Session {
     #[serde(rename = "accessJwt")]
     pub access_jwt: String,

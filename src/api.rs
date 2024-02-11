@@ -7,6 +7,7 @@ use std::io::Write;
 use crate::model::{Session, Timeline};
 
 // struct to centralze all the api calls
+#[derive(Clone)]
 pub struct API {
     session: Session,
 }
