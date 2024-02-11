@@ -1,4 +1,4 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 // Response from com.atproto.server.createSession
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -14,17 +14,16 @@ pub struct Session {
     refresh_jwt: String,
 }
 
-
 // Response from app.bsky.feed.getTimeline
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Timeline {
     cursor: String,
-    feed: Vec<Feed>
+    feed: Vec<Feed>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Feed {
-    post: Post
+    post: Post,
 }
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Post {
