@@ -29,14 +29,14 @@ pub struct Feed {
 pub struct Post {
     author: Author,
     cid: String,
-    #[serde(rename = "indexedAt")]
+    #[serde(rename(deserialize="indexedAt", serialize="indexed_at"))]
     indexed_at: String,
-    #[serde(rename = "likeCount")]
+    #[serde(rename(deserialize="likeCount", serialize="like_count"))]
     like_count: u32,
     record: Record,
-    #[serde(rename = "replyCount")]
+    #[serde(rename(deserialize="replyCount", serialize="reply_count"))]
     reply_count: u32,
-    #[serde(rename = "repostCount")]
+    #[serde(rename(deserialize="repostCount", serialize="repost_count"))]
     repost_count: u32,
     uri: String,
 }
@@ -45,16 +45,16 @@ pub struct Post {
 pub struct Author {
     avatar: String,
     did: String,
-    #[serde(rename = "displayName")]
+    #[serde(rename(deserialize="displayName", serialize="display_name"))]
     display_name: String,
     handle: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Record {
-    #[serde(rename = "$type")]
+    #[serde(rename(deserialize="$type", serialize="record_type"))]
     record_type: String,
-    #[serde(rename = "createdAt")]
+    #[serde(rename(deserialize="createdAt", serialize="created_at"))]
     created_at: String,
     text: String,
 }
