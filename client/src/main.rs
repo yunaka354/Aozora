@@ -28,35 +28,42 @@ fn App() -> Html {
     }
     html! {
         <div class="max-w-lg mx-auto">
-            {
-                match (*timeline).clone() {
-                    Some(timeline) => {
-                        html! {
-                            <div>
-                                {
-                                    for timeline.feed.iter().map(|feed| {
-                                        html! {
-                                            <PostCard
-                                                avatar={feed.post.author.avatar.clone()}
-                                                username={feed.post.author.display_name.clone()}
-                                                content={feed.post.record.text.clone()}
-                                                posted_on={feed.post.record.created_at.clone()}
-                                            />
-                                        }
-                                    })
-                                }
-                            </div>
+            <div class="fixed top-0 left-0 m-4">
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    { "Tweet" }
+                </button>
+            </div>
+            <div class="flex items-center justify-center min-h-screen">
+                {
+                    match (*timeline).clone() {
+                        Some(timeline) => {
+                            html! {
+                                <div>
+                                    {
+                                        for timeline.feed.iter().map(|feed| {
+                                            html! {
+                                                <PostCard
+                                                    avatar={feed.post.author.avatar.clone()}
+                                                    username={feed.post.author.display_name.clone()}
+                                                    content={feed.post.record.text.clone()}
+                                                    posted_on={feed.post.record.created_at.clone()}
+                                                />
+                                            }
+                                        })
+                                    }
+                                </div>
+                            }
                         }
-                    }
-                    None => {
-                        html! {
-                            <div class="text-center mt-8">
-                                <div class="inline-block animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
-                            </div>
+                        None => {
+                            html! {
+                                <div class="text-center mt-8">
+                                    <div class="inline-block animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+                                </div>
+                            }
                         }
                     }
                 }
-            }
+            </div>
         </div>
     }
 }
