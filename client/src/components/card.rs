@@ -23,4 +23,3 @@ pub fn post_card(props: &PostCardProps) -> Html {
         </div>
     }
 }
-
