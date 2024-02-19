@@ -6,8 +6,8 @@ use axum::routing::{get, post};
 use axum::Extension;
 use axum::Router;
 use http::Method;
-use tower_http::cors::{Any, CorsLayer};
 use serde_json::Value;
+use tower_http::cors::{Any, CorsLayer};
 
 #[tokio::main]
 async fn main() {
