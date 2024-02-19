@@ -1,6 +1,6 @@
 mod components;
 use components::timeline::Timeline;
-use components::tweet_button::TweetButton;
+use components::tweet_area::TweetArea;
 mod models;
 
 use yew::prelude::*;
@@ -8,13 +8,16 @@ use yew::prelude::*;
 #[function_component]
 fn App() -> Html {
     html! {
-        <div class="max-w-lg mx-auto">
-            <div class="fixed top-0 left-0 m-4">
-                <TweetButton />
+        <div class="flex flex-wrap">
+            <div class="w-1/3">
+                <TweetArea />
             </div>
-            <div class="flex items-center justify-center min-h-screen">
-                <Timeline />
+            <div class="w-1/3">
+                <div class="flex items-center justify-center min-h-screen">
+                    <Timeline />
+                </div>
             </div>
+            <div class="w-1/3"></div>
         </div>
     }
 }
