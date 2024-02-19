@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 pub struct Session {
     #[serde(rename = "accessJwt")]
     pub access_jwt: String,
-    did: String,
+    pub did: String,
     email: String,
     #[serde(rename = "emailConfirmed")]
     email_confirmed: bool,
@@ -54,7 +54,15 @@ pub struct Author {
 pub struct Record {
     #[serde(rename(deserialize = "$type", serialize = "record_type"))]
     record_type: String,
-    #[serde(rename(deserialize = "createdAt", serialize = "created_at"))]
+    #[serde(rename(deserialize = "createdAt", serialize = "createdAt"))]
     created_at: String,
     text: String,
+}
+
+// Request to app.bsky.feed.post
+#[derive(Serialize, Deserialize, Debug)]
+pub struct CreatePost {
+    pub repo: String,
+    pub collection: String,
+    pub record: Record,
 }

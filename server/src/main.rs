@@ -44,7 +44,18 @@ async fn timeline(Extension(api): Extension<api::API>) -> impl IntoResponse {
     Json(timeline)
 }
 
-async fn tweet(Json(payload): Json<Value>) -> impl IntoResponse {
+async fn tweet(
+    Extension(api): Extension<api::API>,
+    Json(payload): Json<Value>,
+) -> impl IntoResponse {
     println!("{}", payload);
-    Json(payload)
+    let record = match serde_json::from_value(payload) {
+        Ok(record) => record,
+        Err(e) => {
+            println!("{}", e);
+            return Json(Value::String(e.to_string()));
+        }
+    };
+    let response = api.post_tweet(record).await;
+    Json(response)
 }

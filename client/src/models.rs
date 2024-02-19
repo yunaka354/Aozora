@@ -34,6 +34,7 @@ pub struct Author {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Record {
     pub record_type: String,
+    #[serde(rename = "createdAt")]
     pub created_at: String,
     pub text: String,
 }

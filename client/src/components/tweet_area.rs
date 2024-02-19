@@ -1,3 +1,4 @@
+use chrono::Utc;
 use gloo_net::http::Request;
 use serde::{Deserialize, Serialize};
 use web_sys::HtmlInputElement;
@@ -5,7 +6,11 @@ use yew::prelude::*;
 
 #[derive(Serialize, Deserialize)]
 struct Tweet {
+    #[serde(rename = "$type")]
+    _type: String,
     text: String,
+    #[serde(rename = "createdAt")]
+    created_at: String,
 }
 
 #[function_component(TweetArea)]
@@ -23,10 +28,15 @@ pub fn tweet_area() -> Html {
         Callback::from(move |_| {
             let tweet_text = tweet_text.clone();
 
-            // Serialize the tweet
-            let json_data = match serde_json::to_string(&Tweet {
+            // Create a new tweet
+            let tweet = Tweet {
+                _type: "app.bsky.feed.post".to_string(),
                 text: (*tweet_text).clone(),
-            }) {
+                created_at: Utc::now().format("%Y-%m-%dT%H:%M:%S%.6fZ").to_string(),
+            };
+
+            // Serialize the tweet
+            let json_data = match serde_json::to_string(&tweet) {
                 Ok(data) => data,
                 Err(err) => {
                     log::error!("Failed to serialize tweet: {}", err);
@@ -36,6 +46,7 @@ pub fn tweet_area() -> Html {
 
             // Send the tweet to the server
             wasm_bindgen_futures::spawn_local(async move {
+                // Post the tweet
                 let _response = Request::post("http://localhost:3000/tweet")
                     .header("Content-Type", "application/json")
                     .body(json_data)
@@ -43,6 +54,9 @@ pub fn tweet_area() -> Html {
                     .send()
                     .await
                     .expect("Failed to send tweet");
+                // NOTE: need error handling here
+                // Clear the tweet text
+                tweet_text.set(String::new());
             });
         })
     };

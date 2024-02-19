@@ -1,4 +1,4 @@
-use crate::model::{Session, Timeline};
+use crate::model::{CreatePost, Record, Session, Timeline};
 use dotenv::dotenv;
 use serde_json::Value;
 use std::collections::HashMap;
@@ -63,6 +63,33 @@ impl API {
             .expect("Failed to send request");
         let text = res.text().await.expect("Failed to get response text");
         self.save_response(text.clone());
+        let json_data: Value = serde_json::from_str(&text).expect("Failed to parse JSON");
+        serde_json::from_value(json_data).expect("Failed to parse JSON")
+    }
+
+    // function to post a tweet
+    pub async fn post_tweet(&self, record: Record) -> Value {
+        let bsky_url = "https://bsky.social/xrpc/com.atproto.repo.createRecord";
+        let client = reqwest::Client::new();
+
+        let create_post = CreatePost {
+            repo: self.session.did.clone(),
+            collection: "app.bsky.feed.post".to_string(),
+            record,
+        };
+        let res = client
+            .post(bsky_url)
+            .header(
+                "Authorization",
+                format!("Bearer {}", self.session.access_jwt),
+            )
+            .json(&create_post)
+            .send()
+            .await
+            .expect("Failed to send request");
+        println!("{}", res.status());
+        let text = res.text().await.expect("Failed to get response text");
+        println!("{}", text);
         let json_data: Value = serde_json::from_str(&text).expect("Failed to parse JSON");
         serde_json::from_value(json_data).expect("Failed to parse JSON")
     }
