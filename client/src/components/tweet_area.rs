@@ -1,7 +1,7 @@
-use yew::prelude::*;
-use web_sys::HtmlInputElement;
 use gloo_net::http::Request;
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
+use web_sys::HtmlInputElement;
+use yew::prelude::*;
 
 #[derive(Serialize, Deserialize)]
 struct Tweet {
@@ -24,14 +24,16 @@ pub fn tweet_area() -> Html {
             let tweet_text = tweet_text.clone();
 
             // Serialize the tweet
-            let json_data = match serde_json::to_string(&Tweet { text: (*tweet_text).clone() }) {
+            let json_data = match serde_json::to_string(&Tweet {
+                text: (*tweet_text).clone(),
+            }) {
                 Ok(data) => data,
                 Err(err) => {
                     log::error!("Failed to serialize tweet: {}", err);
                     return;
                 }
             };
-            
+
             // Send the tweet to the server
             wasm_bindgen_futures::spawn_local(async move {
                 let _response = Request::post("http://localhost:3000/tweet")
@@ -71,7 +73,7 @@ pub struct TweetButtonProps {
 }
 
 #[function_component(TweetButton)]
-pub fn tweet_button(TweetButtonProps{callback}: &TweetButtonProps) -> Html {
+pub fn tweet_button(TweetButtonProps { callback }: &TweetButtonProps) -> Html {
     html! {
         <button onclick={callback} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             { "Tweet" }
