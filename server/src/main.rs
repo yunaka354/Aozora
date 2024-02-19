@@ -28,9 +28,7 @@ async fn main() {
         .layer(Extension(api));
 
     let addr = "0.0.0.0:3000";
-    let listener = tokio::net::TcpListener::bind(addr)
-        .await
-        .unwrap();
+    let listener = tokio::net::TcpListener::bind(addr).await.unwrap();
     println!("server is hosted at {}", addr);
     axum::serve(listener, app).await.unwrap();
 }
