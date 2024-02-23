@@ -1,6 +1,7 @@
 mod components;
 use components::timeline::Timeline;
 use components::tweet_area::TweetArea;
+use components::header::Header;
 mod models;
 
 use yew::prelude::*;
@@ -8,17 +9,20 @@ use yew::prelude::*;
 #[function_component]
 fn App() -> Html {
     html! {
-        <div class="flex flex-wrap">
-            <div class="w-1/3">
-                <TweetArea />
+        <>
+            <Header />
+            <div class={"wrapper flex bg-gray-100 pt-16"}>
+                    <div class="w-1/3">
+                        <TweetArea />
+                    </div>
+                    <div class="w-1/3">
+                        <div class="flex items-center min-h-screen">
+                            <Timeline />
+                        </div>
+                    </div>
+                    <div class="w-1/3"></div>
             </div>
-            <div class="w-1/3">
-                <div class="flex items-center justify-center min-h-screen">
-                    <Timeline />
-                </div>
-            </div>
-            <div class="w-1/3"></div>
-        </div>
+        </>
     }
 }
 
