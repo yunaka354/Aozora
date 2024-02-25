@@ -34,12 +34,7 @@ pub fn timeline() -> Html {
                                 for timeline.feed.iter().map(|feed| {
                                     html! {
                                         <PostCard
-                                            avatar={feed.post.author.avatar.clone()}
-                                            username={feed.post.author.display_name.clone()}
-                                            handle={feed.post.author.handle.clone()}
-                                            content={feed.post.record.text.clone()}
-                                            posted_on={feed.post.record.created_at.clone()}
-                                            reason={feed.reason.clone()}
+                                            feed={feed.clone()}
                                         />
                                     }
                                 })

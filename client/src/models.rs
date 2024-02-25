@@ -1,18 +1,18 @@
 use serde::{Deserialize, Serialize};
 
 // Response from app.bsky.feed.getTimeline
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
 pub struct Timeline {
     pub cursor: String,
     pub feed: Vec<Feed>,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
 pub struct Feed {
     pub post: Post,
     pub reason: Option<Reason>,
 }
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
 pub struct Post {
     pub author: Author,
     pub cid: String,
@@ -24,7 +24,7 @@ pub struct Post {
     pub uri: String,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
 pub struct Author {
     pub avatar: String,
     pub did: String,
@@ -32,7 +32,7 @@ pub struct Author {
     pub handle: String,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
 pub struct Record {
     pub record_type: String,
     #[serde(rename = "createdAt")]
