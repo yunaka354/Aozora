@@ -33,6 +33,21 @@ pub fn post_card(props: &PostCardProps) -> Html {
                     <div class="text-gray-600 text-sm mt-4">{&props.feed.post.record.created_at}</div>
                 </div>
             </div>
+            // post status
+            <div class="flex justify-between px-6 py-4">
+                <div class="flex items-center">
+                    <i class="fa-regular fa-message"></i>
+                    <span class="px-2">{&props.feed.post.reply_count}</span>
+                </div>
+                <div class="flex items-center">
+                    <i class="fa-solid fa-retweet"></i>
+                    <span class="px-2">{&props.feed.post.repost_count}</span>
+                </div>
+                <div class="flex items-center">
+                    <i class="fa-regular fa-heart"></i>
+                    <span class="px-2">{&props.feed.post.like_count}</span>
+                </div>
+            </div>
         </div>
     }
 }
