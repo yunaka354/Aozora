@@ -1,7 +1,7 @@
 mod components;
+use components::header::Header;
 use components::timeline::Timeline;
 use components::tweet_area::TweetArea;
-use components::header::Header;
 mod models;
 
 use yew::prelude::*;

@@ -24,6 +24,7 @@ pub struct Timeline {
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Feed {
     post: Post,
+    reason: Option<Reason>,
 }
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Post {
@@ -65,4 +66,34 @@ pub struct CreatePost {
     pub repo: String,
     pub collection: String,
     pub record: Record,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Reason {
+    #[serde(rename(deserialize = "$type", serialize = "record_type"))]
+    pub record_type: String,
+    pub by: By,
+    #[serde(rename(deserialize = "indexedAt", serialize = "indexed_at"))]
+    pub indexed_at: String,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct By {
+    pub avatar: String,
+    pub did: String,
+    #[serde(rename(deserialize = "displayName", serialize = "display_name"))]
+    pub display_name: String,
+    pub handle: String,
+    pub labels: Vec<String>,
+    pub viewer: Viewer,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Viewer {
+    #[serde(rename(deserialize = "blockedBy", serialize = "blocked_by"))]
+    pub blocked_by: bool,
+    #[serde(rename(deserialize = "followedBy", serialize = "followed_by"))]
+    pub followed_by: String,
+    pub following: String,
+    pub muted: bool,
 }

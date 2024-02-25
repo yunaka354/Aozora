@@ -38,6 +38,7 @@ pub fn timeline() -> Html {
                                             username={feed.post.author.display_name.clone()}
                                             content={feed.post.record.text.clone()}
                                             posted_on={feed.post.record.created_at.clone()}
+                                            reason={feed.reason.clone()}
                                         />
                                     }
                                 })
