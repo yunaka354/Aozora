@@ -101,7 +101,14 @@ impl API {
         let text = res.text().await.expect("Failed to get response text");
         self.save_response(text.clone());
         let json_data: Value = serde_json::from_str(&text).expect("Failed to parse JSON");
-        serde_json::from_value(json_data).expect("Failed to parse JSON")
+        let result = serde_json::from_value(json_data);
+        match result {
+            Ok(timeline) => timeline,
+            Err(err) => {
+                println!("{}", text);
+                panic!("Failed to parse JSON: {}", err)
+            },
+        }
     }
 
     // function to post a tweet

@@ -30,6 +30,7 @@ pub struct Feed {
 pub struct Post {
     author: Author,
     cid: String,
+    embed: Option<Embed>,
     #[serde(rename(deserialize = "indexedAt", serialize = "indexed_at"))]
     indexed_at: String,
     #[serde(rename(deserialize = "likeCount", serialize = "like_count"))]
@@ -96,4 +97,26 @@ pub struct Viewer {
     pub followed_by: String,
     pub following: String,
     pub muted: bool,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Embed {
+    #[serde(rename(deserialize = "$type", serialize = "type"))]
+    pub type_: String,
+    pub images: Option<Vec<Image>>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Image {
+    pub alt: String,
+    #[serde(rename(deserialize = "aspectRatio", serialize = "aspect_ratio"))]
+    pub aspect_ratio: AspectRatio,
+    pub fullsize: String,
+    pub thumb: String,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct AspectRatio {
+    pub height: u32,
+    pub width: u32,
 }

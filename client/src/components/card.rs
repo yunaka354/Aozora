@@ -1,4 +1,4 @@
-use crate::models::{Feed, Reason};
+use crate::models::{Embed, Feed, Reason};
 use yew::prelude::*;
 
 #[derive(Properties, Clone, PartialEq)]
@@ -33,6 +33,18 @@ pub fn post_card(props: &PostCardProps) -> Html {
                     <div class="text-gray-600 text-sm mt-4">{&props.feed.post.record.created_at}</div>
                 </div>
             </div>
+            // embed content if it is available
+            {
+                if let Some(embed) = &props.feed.post.embed {
+                    html! {
+                        <div class="px-6 py-4">
+                            <EmbedContent embed={embed.clone()}/>
+                        </div>
+                    }
+                } else {
+                    html! {}
+                }
+            }
             // post status
             <div class="flex justify-between px-6 py-4">
                 <div class="flex items-center">
@@ -70,5 +82,27 @@ pub fn reposted_mark(props: &RepostedMarkProps) -> Html {
                 </a>
             </span>
         </p>
+    }
+}
+
+#[derive(Properties, Clone, PartialEq)]
+pub struct EmbedContentProps {
+    pub embed: Embed,
+}
+
+// embed content if it is available
+#[function_component(EmbedContent)]
+pub fn embed_content(props: &EmbedContentProps) -> Html {
+    html! {
+        match &props.embed.images {
+            Some(images) => {
+                html! {
+                    <img src={images[0].thumb.clone()} alt="Embed Content" />
+                }
+            }
+            None => {
+                html! {}
+            }
+        }
     }
 }
