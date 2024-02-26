@@ -8,6 +8,20 @@ pub struct PostCardProps {
 
 #[function_component(PostCard)]
 pub fn post_card(props: &PostCardProps) -> Html {
+    // create URL for the post
+    let slash_split = props
+        .feed
+        .post
+        .uri
+        .split('/')
+        .map(|s| s.to_string())
+        .collect::<Vec<String>>();
+    let last_segment = slash_split.last().unwrap();
+    let post_url = format!(
+        "https://bsky.app/profile/{}/post/{}",
+        props.feed.post.author.handle, last_segment
+    );
+
     html! {
         <div class="bg-white p-6 rounded-lg shadow-lg mb-2">
             // if the post is reposted, show the reposted mark
@@ -58,6 +72,11 @@ pub fn post_card(props: &PostCardProps) -> Html {
                 <div class="flex items-center">
                     <i class="fa-regular fa-heart"></i>
                     <span class="px-2">{&props.feed.post.like_count}</span>
+                </div>
+                <div class="flex items-center">
+                    <a href={post_url} target="_blank">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
                 </div>
             </div>
         </div>
