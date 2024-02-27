@@ -61,7 +61,7 @@ pub struct By {
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
 pub struct Viewer {
     pub blocked_by: bool,
-    pub followed_by: String,
+    pub followed_by: Option<String>,
     pub following: String,
     pub muted: bool,
 }

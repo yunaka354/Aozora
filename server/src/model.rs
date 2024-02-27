@@ -94,7 +94,7 @@ pub struct Viewer {
     #[serde(rename(deserialize = "blockedBy", serialize = "blocked_by"))]
     pub blocked_by: bool,
     #[serde(rename(deserialize = "followedBy", serialize = "followed_by"))]
-    pub followed_by: String,
+    pub followed_by: Option<String>,
     pub following: String,
     pub muted: bool,
 }
