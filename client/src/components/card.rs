@@ -43,7 +43,8 @@ pub fn post_card(props: &PostCardProps) -> Html {
                     <h2 class="text-xl font-bold mb-2">
                         <a href={format!("https://bsky.app/profile/{}", props.feed.post.author.handle)} target="_blank">{&props.feed.post.author.display_name}</a>
                     </h2>
-                    <p class="text-gray-700">{&props.feed.post.record.text}</p>
+                    // overflow-wrap: anywhere is required for edge cases where the text has too many special characters (i.e. exclamations, etc.)
+                    <div class="text-gray-700" style="overflow-wrap: anywhere;">{&props.feed.post.record.text}</div>
                     <div class="text-gray-600 text-sm mt-4">{&props.feed.post.record.created_at}</div>
                 </div>
             </div>

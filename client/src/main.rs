@@ -16,7 +16,7 @@ fn App() -> Html {
                         <TweetArea />
                     </div>
                     <div class="w-1/3">
-                        <div class="flex items-center min-h-screen">
+                        <div class="flex items-center max-w-full">
                             <Timeline />
                         </div>
                     </div>
